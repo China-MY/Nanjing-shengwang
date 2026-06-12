@@ -1,0 +1,9 @@
+name = "nanjing-shengwang"
+main = "src/worker.ts"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+assets = { directory = "dist", binding = "ASSETS" }
+
+# SMTP 配置（通过 `npx wrangler secret put` 设置）
+# SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_TO

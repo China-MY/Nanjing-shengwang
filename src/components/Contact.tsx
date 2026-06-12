@@ -2,11 +2,34 @@ import { useState } from 'react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' })
+  const [submitting, setSubmitting] = useState(false)
+  const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    alert('感谢您的留言，我们会尽快与您联系！')
-    setFormData({ name: '', company: '', email: '', phone: '', message: '' })
+    setSubmitting(true)
+    setStatus(null)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus({ type: 'success', text: '感谢您的留言！邮件已发送，我们会尽快与您联系。' })
+        setFormData({ name: '', company: '', email: '', phone: '', message: '' })
+      } else {
+        setStatus({ type: 'error', text: data.error || '发送失败，请稍后重试。' })
+      }
+    } catch {
+      setStatus({ type: 'error', text: '网络错误，请检查您的网络连接后重试。' })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -152,11 +175,37 @@ export default function Contact() {
                   placeholder="请描述您的需求或问题..."
                 />
               </div>
+
+              {/* Status message */}
+              {status && (
+                <div
+                  className={`px-4 py-3 rounded-lg text-sm ${
+                    status.type === 'success'
+                      ? 'bg-green-50 text-green-700 border border-green-200'
+                      : 'bg-red-50 text-red-700 border border-red-200'
+                  }`}
+                >
+                  {status.type === 'success' ? '✅ ' : '❌ '}
+                  {status.text}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary-600 to-accent-500 text-white py-4 rounded-lg font-semibold hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                disabled={submitting}
+                className="w-full bg-gradient-to-r from-primary-600 to-accent-500 text-white py-4 rounded-lg font-semibold hover:shadow-lg hover:scale-[1.02] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                提交留言
+                {submitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    发送中...
+                  </span>
+                ) : (
+                  '提交留言'
+                )}
               </button>
             </form>
           </div>
