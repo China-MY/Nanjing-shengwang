@@ -83,6 +83,16 @@ export default {
           return Response.json({ success: false, error: '请填写姓名、邮箱和留言内容' }, { status: 400 })
         }
 
+        // 检查 SMTP 凭据
+        const smtpUser = env.SMTP_USER || ''
+        const smtpPass = env.SMTP_PASS || ''
+        if (!smtpUser || !smtpPass) {
+          return Response.json({
+            success: false,
+            error: 'SMTP 账号或密码未配置，请在 Cloudflare Dashboard 中设置 SMTP_USER 和 SMTP_PASS 环境变量',
+          }, { status: 500 })
+        }
+
         // 创建 SMTP 传输器（飞书 SMTP 推荐 587 端口 + STARTTLS）
         const smtpPort = Number(env.SMTP_PORT) || 587
         const transporter = nodemailer.createTransport({
@@ -90,8 +100,8 @@ export default {
           port: smtpPort,
           secure: smtpPort === 465,
           auth: {
-            user: env.SMTP_USER || '',
-            pass: env.SMTP_PASS || '',
+            user: smtpUser,
+            pass: smtpPass,
           },
           // Cloudflare Workers 不支持 rejectUnauthorized 选项
         })
