@@ -93,9 +93,7 @@ export default {
             user: env.SMTP_USER || '',
             pass: env.SMTP_PASS || '',
           },
-          tls: {
-            rejectUnauthorized: false,
-          },
+          // Cloudflare Workers 不支持 rejectUnauthorized 选项
         })
 
         await transporter.sendMail({
