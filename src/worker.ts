@@ -83,14 +83,18 @@ export default {
           return Response.json({ success: false, error: '请填写姓名、邮箱和留言内容' }, { status: 400 })
         }
 
-        // 创建 SMTP 传输器
+        // 创建 SMTP 传输器（飞书 SMTP 推荐 587 端口 + STARTTLS）
+        const smtpPort = Number(env.SMTP_PORT) || 587
         const transporter = nodemailer.createTransport({
           host: env.SMTP_HOST || 'smtp.feishu.cn',
-          port: Number(env.SMTP_PORT) || 465,
-          secure: true,
+          port: smtpPort,
+          secure: smtpPort === 465,
           auth: {
             user: env.SMTP_USER || '',
             pass: env.SMTP_PASS || '',
+          },
+          tls: {
+            rejectUnauthorized: false,
           },
         })
 
@@ -104,7 +108,9 @@ export default {
         return Response.json({ success: true })
       } catch (err) {
         const message = err instanceof Error ? err.message : '发送失败'
-        return Response.json({ success: false, error: message }, { status: 500 })
+        const detail = err instanceof Error ? `${err.name}: ${err.message}` : '未知错误'
+        console.error('SMTP Error:', detail)
+        return Response.json({ success: false, error: message, detail }, { status: 500 })
       }
     }
 
