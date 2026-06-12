@@ -2,8 +2,11 @@ import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
-import Products from './components/Products'
 import Services from './components/Services'
+import Cases from './components/Cases'
+import Advantages from './components/Advantages'
+import Partners from './components/Partners'
+import Qualifications from './components/Qualifications'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -15,8 +18,11 @@ function App() {
       <Navbar activeSection={activeSection} setActiveSection={setActiveSection} />
       <Hero />
       <About />
-      <Products />
       <Services />
+      <Cases />
+      <Advantages />
+      <Partners />
+      <Qualifications />
       <Contact />
       <Footer />
     </div>

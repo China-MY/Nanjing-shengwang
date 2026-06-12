@@ -1,11 +1,11 @@
 export default function Hero() {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900">
-      {/* Background pattern */}
+    <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900 overflow-hidden">
+      {/* Animated background grid */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)',
@@ -13,65 +13,68 @@ export default function Hero() {
         }} />
       </div>
 
-      {/* Gradient overlay */}
+      {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary-900/50 to-accent-600/30" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6">
-            <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
-            <span className="text-white/80 text-sm">成立于 2012 年，服务超过 100+ 客户</span>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 w-full">
+        <div className="max-w-4xl">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="text-white/80 text-sm font-medium">
+              国家级高新技术企业 · 成立于 2012 年
+            </span>
           </div>
 
+          {/* Main headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-            专业 IT 基础设施
+            专业的数字化转型
             <br />
-            <span className="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">
-              综合解决方案
-            </span>
+            与网络安全服务商
           </h1>
 
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl">
-            南京盛网信息科技是一家致力于服务器、存储、网络设备与信息安全的 IT 硬件产品供应商，
-            提供网络系统集成和综合布线方案设计、施工、调试、维护于一体化的专业服务。
+          {/* Sub headline */}
+          <p className="text-lg md:text-xl text-gray-300 mb-4 max-w-3xl leading-relaxed">
+            十四载深耕，铸就安全可控的数字基石。我们专注为政府机构、金融行业及各类企事业单位
+            提供<strong className="text-white">一站式系统集成、安全集成与全方位安全服务</strong>，
+            致力于成为政企数字化转型的坚实底座。
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <button
-              onClick={scrollToContact}
+              onClick={() => scrollTo('contact')}
               className="px-8 py-4 bg-gradient-to-r from-primary-600 to-accent-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-primary-500/30 transition-all transform hover:-translate-y-0.5"
             >
               获取解决方案
             </button>
-            <a
-              href="#products"
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all text-center"
+            <button
+              onClick={() => scrollTo('cases')}
+              className="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-all"
             >
-              了解更多
-            </a>
+              查看经典案例
+            </button>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-8 border-t border-white/10">
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-white">13+</div>
-              <div className="text-gray-400 text-sm mt-1">年行业经验</div>
+              <div className="text-3xl md:text-4xl font-bold text-white">14<small className="text-lg text-primary-300">年</small></div>
+              <div className="text-gray-400 text-sm mt-1">行业深耕经验</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-white">100+</div>
+              <div className="text-3xl md:text-4xl font-bold text-white">200<small className="text-lg text-primary-300">+</small></div>
               <div className="text-gray-400 text-sm mt-1">服务客户</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-white">508万</div>
-              <div className="text-gray-400 text-sm mt-1">注册资本</div>
+              <div className="text-3xl md:text-4xl font-bold text-white">500<small className="text-lg text-primary-300">+</small></div>
+              <div className="text-gray-400 text-sm mt-1">交付项目</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-white">14人</div>
-              <div className="text-gray-400 text-sm mt-1">专业团队</div>
+              <div className="text-3xl md:text-4xl font-bold text-white">24/7</div>
+              <div className="text-gray-400 text-sm mt-1">全天候响应</div>
             </div>
           </div>
         </div>

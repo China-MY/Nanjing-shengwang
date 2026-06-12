@@ -8,8 +8,10 @@ interface NavbarProps {
 const navItems = [
   { id: 'home', label: '首页' },
   { id: 'about', label: '关于我们' },
-  { id: 'products', label: '产品中心' },
-  { id: 'services', label: '服务范围' },
+  { id: 'services', label: '核心业务' },
+  { id: 'cases', label: '经典案例' },
+  { id: 'advantages', label: '核心优势' },
+  { id: 'partners', label: '合作伙伴' },
   { id: 'contact', label: '联系我们' },
 ]
 
@@ -46,12 +48,12 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
           </div>
 
           {/* Desktop */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navItems.map(item => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-medium transition-colors ${
+                className={`text-sm font-medium transition-colors whitespace-nowrap ${
                   activeSection === item.id
                     ? 'text-primary-600'
                     : scrolled ? 'text-gray-700 hover:text-primary-600' : 'text-white/90 hover:text-white'
@@ -79,7 +81,7 @@ export default function Navbar({ activeSection, setActiveSection }: NavbarProps)
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden mt-4 pb-4 bg-white rounded-lg shadow-lg">
+          <div className="md:hidden mt-4 pb-4 bg-white rounded-lg shadow-lg max-h-96 overflow-y-auto">
             {navItems.map(item => (
               <button
                 key={item.id}
